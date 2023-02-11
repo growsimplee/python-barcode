@@ -404,8 +404,17 @@ else:
         format: str
         mode: str
         dpi: int
+        images : []
 
-        def __init__(self, format="PNG", mode="RGB"):
+        def add_image_addons(self):
+            """Add image addons to the generated image.
+
+            :params image: The image to add the addons to.
+            """
+            for image in self.images:
+                self._paint_image(image["x"], image["y"], image["data"])
+
+        def __init__(self,images = [], format="PNG", mode="RGB"):
             """Initialise a new write instance.
 
             :params format: The file format for the generated image. This parameter can
@@ -417,6 +426,7 @@ else:
                 self, self._init, self._paint_module, self._paint_text, self._finish
             )
             self.format = format
+            self.images = images
             self.mode = mode
             self.dpi = 300
             self._image = None
@@ -452,6 +462,7 @@ else:
                 ypos += pt2mm(self.font_size) / 2 + self.text_line_distance
 
         def _finish(self):
+            self.add_image_addons()
             return self._image
 
         def save(self, filename, output):

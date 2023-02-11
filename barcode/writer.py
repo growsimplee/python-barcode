@@ -413,6 +413,10 @@ else:
             """
             for image in self.images:
                 self._paint_image(image["x"], image["y"], image["data"])
+                
+        def _paint_image(self, xpos,ypos, bitmap):
+            # Draw a bitmap image
+            self._draw.bitmap((xpos, ypos), bitmap, fill="black")
 
         def __init__(self,images = [], format="PNG", mode="RGB"):
             """Initialise a new write instance.
